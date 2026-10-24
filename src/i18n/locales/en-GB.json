@@ -410,7 +410,7 @@
     "confirmationEmail": {
       "subject": "Receipt confirmation of your message",
       "greeting": "Hello {{name}},",
-      "body": "Thank you for reaching out. I'll aswer you shortly.",
+      "body": "Thank you for reaching out. I'll answer you shortly.",
       "footer": "— Guilherme Gonçalves"
     },
     "notificationEmail": {
