@@ -1,4 +1,3 @@
-
 name = "portfolio-contact-email"
 main = "src/index.ts"
 compatibility_date = "2024-11-01"
@@ -7,10 +6,18 @@ compatibility_date = "2024-11-01"
 #   RESEND_API_KEY
 # Optional vars:
 #   CONTACT_TO_EMAIL   (default: lwglguilherme@gmail.com)
-#   MAIL_FROM          (default: Portfolio <onboarding@resend.dev> — use a verified domain in production)
+#   MAIL_FROM          (default: LWGLG Portfolio SPA <onboarding@resend.dev> — use a verified domain in production)
 #   ALLOWED_ORIGINS    (comma-separated; empty = reflect request Origin in dev)
 
 [vars]
 CONTACT_TO_EMAIL = "lwglguilherme@gmail.com"
-MAIL_FROM = "Portfolio <onboarding@resend.dev>"
+MAIL_FROM = "LWGLG Portfolio SPA <onboarding@resend.dev>"
 ALLOWED_ORIGINS = "https://lwglg.github.io,http://localhost:3000"
+
+# Module path aliases (aligned with tsconfig paths)
+[alias]
+"@domain" = "./src/domain"
+"@application" = "./src/application"
+"@infrastructure" = "./src/infrastructure"
+"@interfaces" = "./src/interfaces"
+"@portfolio" = "../../src"

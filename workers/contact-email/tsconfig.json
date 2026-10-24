@@ -7,7 +7,21 @@
     "types": ["@cloudflare/workers-types"],
     "strict": true,
     "skipLibCheck": true,
-    "noEmit": true
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@domain/*": ["src/domain/*"],
+      "@application/*": ["src/application/*"],
+      "@infrastructure/*": ["src/infrastructure/*"],
+      "@interfaces/*": ["src/interfaces/*"],
+      "@portfolio/*": ["../../src/*"]
+    },
+    "resolveJsonModule": true,
+    "esModuleInterop": true
   },
-  "include": ["src"]
+  "include": [
+    "src/**/*.ts",
+    "../../src/lib/confirmationEmailHtml.ts",
+    "../../src/i18n/locales/*.json"
+  ]
 }
