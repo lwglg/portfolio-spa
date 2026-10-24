@@ -389,7 +389,7 @@
     "subtitle": "If you want to know more about me, please drop a line and I'll answer you shortly.",
     "form": {
       "firstName": "First name",
-      "lastName": "Surname",
+      "lastName": "Last name",
       "email": "E-mail",
       "organisation": "Organisation name (optional)",
       "phone": "Telephone (optional)",
@@ -404,14 +404,28 @@
       "required": "This field is required",
       "maxLength": "Maximum of {{max}} characters",
       "email": "Invalid e-mail address",
-      "namePattern": "Invalid characters. Use letters, accents, hyphens, spaces and apostrophes."
+      "namePattern": "Invalid characters. Use letters, accents, hyphens, spaces and apostrophes.",
+      "organisationPattern": "Use only letters, numbers and special characters common in company names"
     },
     "confirmationEmail": {
-      "subject": "Confirmation of receipt of your message",
+      "subject": "Receipt confirmation of your message",
       "greeting": "Hello {{name}},",
-      "body": "We have received your message and will get back to you shortly. Thank you for getting in touch.",
+      "body": "Thank you for reaching out. I'll aswer you shortly.",
       "footer": "— Guilherme Gonçalves"
-    }
+    },
+    "notificationEmail": {
+      "subject": "[LWGLG Portfolio SPA] Contact from {{name}}",
+      "title": "New contact message",
+      "labels": {
+        "name": "Name",
+        "email": "E-mail",
+        "organisation": "Organisation",
+        "phone": "Phone",
+        "message": "Message"
+      },
+      "emptyValue": "—"
+    },
+    "emailBrand": "LWGLG Portfolio SPA"
   },
   "footer": {
     "rights": "All rights reserved.",

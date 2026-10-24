@@ -10,7 +10,8 @@ describe('createContactSchema', () => {
       firstName: 'José',
       lastName: "O'Connor-Silva",
       email: 'jose@example.com',
-      organisation: 'Acme Ltda',
+      // ORGANISATION_REGEX requires at least one special character
+      organisation: 'Acme Ltd.',
       countryCode: '+55',
       phone: '11987654321',
       message: 'Olá, gostaria de conversar sobre um projecto.',
@@ -75,5 +76,52 @@ describe('createContactSchema', () => {
         message: 'x'.repeat(1001),
       }),
     ).rejects.toThrow();
+  });
+
+  /**
+   * ORGANISATION_REGEX = /^(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).+$/
+   * Requires at least one character from the special set.
+   */
+  it('allows organisation names that include at least one required special character', async () => {
+    const names = [
+      'Acme Ltd.',
+      'AT&T',
+      "O'Reilly Media",
+      'Foo/Bar GmbH',
+      'C++ Shop',
+      'Empresa (Brasil)',
+      'A-B Systems',
+      'shop@example',
+      'Foo, Inc.',
+      'Name: Brand',
+    ];
+    for (const organisation of names) {
+      await expect(
+        schema.validate({
+          firstName: 'Ana',
+          lastName: 'Silva',
+          email: 'a@b.com',
+          organisation,
+          countryCode: '+55',
+          message: 'Hello',
+        }),
+      ).resolves.toMatchObject({ organisation });
+    }
+  });
+
+  it('rejects organisation names without any required special character', async () => {
+    const names = ['Acme Ltda', 'Empresa Brasil', 'Simple Name', '12345'];
+    for (const organisation of names) {
+      await expect(
+        schema.validate({
+          firstName: 'Ana',
+          lastName: 'Silva',
+          email: 'a@b.com',
+          organisation,
+          countryCode: '+55',
+          message: 'Hello',
+        }),
+      ).rejects.toThrow();
+    }
   });
 });

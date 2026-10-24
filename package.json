@@ -16,7 +16,8 @@
     "format:check": "prettier --check . --config .prettierrc.cjs",
     "test": "jest --coverage",
     "test:watch": "jest --watch",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "typecheck:worker": "tsc --noEmit -p workers/contact-email/tsconfig.json"
   },
   "dependencies": {
     "next": "^15.1.0",

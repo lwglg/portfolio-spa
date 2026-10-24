@@ -12,7 +12,7 @@ const validData: ContactFormData = {
   organisation: 'GLG',
   countryCode: '+55',
   phone: '51999999999',
-  message: 'Olá, contacto de teste.',
+  message: 'Olá, contato de teste.',
 };
 
 describe('submitContactForm', () => {

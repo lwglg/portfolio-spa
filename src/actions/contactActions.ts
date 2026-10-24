@@ -64,7 +64,9 @@ export async function submitContactForm(
 
 async function mockSubmit(data: ContactFormData, dict: Dictionary): Promise<void> {
   await new Promise((resolve) => setTimeout(resolve, 600));
+
   const fullName = `${data.firstName} ${data.lastName}`;
+
   if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
     // eslint-disable-next-line no-console
     console.info('[Contact] Mock submit (set NEXT_PUBLIC_CONTACT_API_URL to use Worker)', {

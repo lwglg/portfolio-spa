@@ -8,6 +8,8 @@ export interface ConfirmationEmailCopy {
   greeting: string;
   body: string;
   footer: string;
+  /** Header brand line */
+  brand?: string;
 }
 
 export interface ConfirmationEmailStrings {
@@ -17,16 +19,20 @@ export interface ConfirmationEmailStrings {
   footer: string;
 }
 
+const DEFAULT_BRAND = 'Guilherme Gonçalves';
+
 /** Resolve copy from i18n confirmationEmail block + recipient name. */
 export function getConfirmationEmailCopy(
   strings: ConfirmationEmailStrings,
   fullName: string,
+  brand: string = DEFAULT_BRAND,
 ): ConfirmationEmailCopy & { subject: string } {
   return {
     subject: strings.subject,
     greeting: strings.greeting.replace(/\{\{name\}\}/g, fullName),
     body: strings.body,
     footer: strings.footer,
+    brand,
   };
 }
 
@@ -43,10 +49,11 @@ function escapeHtml(s: string): string {
  * Safe for e-mail clients (inline styles only).
  */
 export function buildConfirmationEmailCardHtml(copy: ConfirmationEmailCopy): string {
+  const brand = escapeHtml(copy.brand ?? DEFAULT_BRAND);
   return `
 <div style="font-family:system-ui,sans-serif;max-width:560px;margin:0 auto;border:3px solid #000;box-shadow:6px 6px 0 #000;background:#fbf6e3;color:#000;">
   <div style="background:#ffdb33;border-bottom:3px solid #000;padding:16px 24px;font-weight:900;font-size:20px;">
-    Guilherme Gonçalves
+    ${brand}
   </div>
   <div style="padding:24px;">
     <p style="font-weight:700;margin:0 0 12px;">${escapeHtml(copy.greeting)}</p>

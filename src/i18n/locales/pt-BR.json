@@ -396,14 +396,28 @@
       "required": "Campo obrigatório",
       "maxLength": "Máximo de {{max}} caracteres",
       "email": "E-mail inválido",
-      "namePattern": "Caracteres inválidos. Use letras, acentos, hífens, espaços e apóstrofos."
+      "namePattern": "Caracteres inválidos. Use letras, acentos, hífens, espaços e apóstrofos.",
+      "organisationPattern": "Use apenas letras, números e caracteres especiais comuns em nomes de empresas"
     },
     "confirmationEmail": {
-      "subject": "Confirmação de recepção da sua mensagem",
+      "subject": "Confirmação de recebimento da sua mensagem",
       "greeting": "Olá {{name}},",
-      "body": "Recebemos a sua mensagem e entraremos em contato em breve. Obrigado por se dirigir a nós.",
+      "body": "Obrigado à você pelo ter entrado em contato. Responderei em breve.",
       "footer": "— Guilherme Gonçalves"
-    }
+    },
+    "notificationEmail": {
+      "subject": "[LWGLG Portfolio SPA] Contato de {{name}}",
+      "title": "Nova mensagem de contato",
+      "labels": {
+        "name": "Nome",
+        "email": "E-mail",
+        "organisation": "Organização",
+        "phone": "Telefone",
+        "message": "Mensagem"
+      },
+      "emptyValue": "—"
+    },
+    "emailBrand": "LWGLG Portfólio SPA"
   },
   "footer": {
     "rights": "Todos os direitos reservados.",

@@ -11,7 +11,11 @@ interface Props {
 }
 
 export function ConfirmationEmailTemplate({ fullName, dict }: Props) {
-  const copy = getConfirmationEmailCopy(dict.contact.confirmationEmail, fullName);
+  const brand =
+    'emailBrand' in dict.contact && typeof dict.contact.emailBrand === 'string'
+      ? dict.contact.emailBrand
+      : 'Guilherme Gonçalves';
+  const copy = getConfirmationEmailCopy(dict.contact.confirmationEmail, fullName, brand);
 
   return (
     <div
@@ -34,7 +38,7 @@ export function ConfirmationEmailTemplate({ fullName, dict }: Props) {
           fontSize: 20,
         }}
       >
-        Guilherme Gonçalves
+        {copy.brand ?? brand}
       </div>
       <div style={{ padding: 24 }}>
         <p style={{ fontWeight: 700, marginBottom: 12 }}>{copy.greeting}</p>
