@@ -19,17 +19,20 @@ describe('submitContactForm', () => {
   beforeEach(() => {
     useContactStore.getState().reset();
     jest.useFakeTimers();
+    global.fetch = jest.fn();
   });
 
   afterEach(() => {
     jest.useRealTimers();
+    jest.restoreAllMocks();
   });
 
-  it('transitions idle → submitting → success', async () => {
-    const promise = submitContactForm(validData, dict);
+  it('mock path: idle → submitting → success when API URL is empty', async () => {
+    // CONTACT_API_URL is empty in test env unless set
+    const promise = submitContactForm(validData, dict, 'pt-BR');
     expect(useContactStore.getState().status).toBe('submitting');
 
-    await jest.advanceTimersByTimeAsync(800);
+    await jest.advanceTimersByTimeAsync(600);
     await promise;
 
     const state = useContactStore.getState();
@@ -37,22 +40,23 @@ describe('submitContactForm', () => {
     expect(state.lastSubmitted?.email).toBe(validData.email);
   });
 
-  it('records error when store submit path throws', async () => {
+  it('records error when mock path throws', async () => {
+    const original = useContactStore.getState().submitSuccess;
     useContactStore.setState({
       submitSuccess: () => {
         throw new Error('boom');
       },
     });
 
-    // Attach rejection handler before advancing timers so Jest does not
-    // treat the rejection as unhandled before the assertion runs.
-    const promise = submitContactForm(validData, dict);
+    const promise = submitContactForm(validData, dict, 'pt-BR');
     const expectation = expect(promise).rejects.toThrow('boom');
 
-    await jest.advanceTimersByTimeAsync(800);
+    await jest.advanceTimersByTimeAsync(600);
     await expectation;
 
     expect(useContactStore.getState().status).toBe('error');
     expect(useContactStore.getState().errorMessage).toBe('boom');
+
+    useContactStore.setState({ submitSuccess: original });
   });
 });

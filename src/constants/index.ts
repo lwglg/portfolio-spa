@@ -99,3 +99,7 @@ export const ASSET_PATHS = {
   logo: '/logos/gg-ltda.svg',
   favicon: '/logos/gg-ltda.svg',
 } as const;
+
+/** Contact form Worker URL (Resend via Cloudflare). Empty = mock in development. */
+export const CONTACT_API_URL =
+  (typeof process !== 'undefined' && process.env.NEXT_PUBLIC_CONTACT_API_URL) || '';

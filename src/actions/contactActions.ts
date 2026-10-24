@@ -1,44 +1,57 @@
 /**
  * Flux actions for the contact form.
- * Call these from UI; they interact with the store and side-effects.
+ * Posts to Cloudflare Worker (Resend): owner notification + visitor confirmation.
  */
+import { CONTACT_API_URL } from '@/constants';
 import type { Dictionary } from '@/i18n';
 import { useContactStore } from '@/stores/contactStore';
 import type { ContactFormData } from '@/types';
 
+export interface ContactApiPayload extends ContactFormData {
+  locale: string;
+}
+
 /**
- * Simulated submission (static export has no server).
- * In a real deployment you would POST to an API route or external service.
- * Builds a confirmation e-mail template in the same visual style.
+ * Submits the contact form to the email Worker.
+ * When CONTACT_API_URL is unset (local without Worker), falls back to a mock success
+ * so UI can still be exercised offline.
  */
-export async function submitContactForm(data: ContactFormData, dict: Dictionary): Promise<void> {
+export async function submitContactForm(
+  data: ContactFormData,
+  dict: Dictionary,
+  locale?: string,
+): Promise<void> {
   const { submitStart, submitSuccess, submitError } = useContactStore.getState();
 
   submitStart();
 
   try {
-    // Simulate network latency
-    await new Promise((resolve) => setTimeout(resolve, 800));
+    if (!CONTACT_API_URL) {
+      await mockSubmit(data, dict);
+      submitSuccess(data);
+      return;
+    }
 
-    // Build confirmation e-mail content (template in app style)
-    const fullName = `${data.firstName} ${data.lastName}`;
-    const confirmation = {
-      to: data.email,
-      subject: dict.contact.confirmationEmail.subject,
-      body: [
-        dict.contact.confirmationEmail.greeting.replace('{{name}}', fullName),
-        '',
-        dict.contact.confirmationEmail.body,
-        '',
-        dict.contact.confirmationEmail.footer,
-      ].join('\n'),
+    const payload: ContactApiPayload = {
+      ...data,
+      locale: locale ?? 'pt-BR',
     };
 
-    // In production: send via Resend / SendGrid / etc.
-    // For static GitHub Pages we log and treat as success.
-    if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
-      // eslint-disable-next-line no-console
-      console.info('[Contact] Confirmation e-mail template:', confirmation);
+    const res = await fetch(CONTACT_API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    let body: { error?: string; ok?: boolean; warning?: string } = {};
+    try {
+      body = (await res.json()) as typeof body;
+    } catch {
+      // non-JSON error body
+    }
+
+    if (!res.ok) {
+      throw new Error(body.error || dict.contact.form.error);
     }
 
     submitSuccess(data);
@@ -46,5 +59,19 @@ export async function submitContactForm(data: ContactFormData, dict: Dictionary)
     const message = err instanceof Error ? err.message : dict.contact.form.error;
     submitError(message);
     throw err;
+  }
+}
+
+async function mockSubmit(data: ContactFormData, dict: Dictionary): Promise<void> {
+  await new Promise((resolve) => setTimeout(resolve, 600));
+  const fullName = `${data.firstName} ${data.lastName}`;
+  if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
+    // eslint-disable-next-line no-console
+    console.info('[Contact] Mock submit (set NEXT_PUBLIC_CONTACT_API_URL to use Worker)', {
+      toOwner: 'lwglguilherme@gmail.com',
+      confirmationTo: data.email,
+      subject: dict.contact.confirmationEmail.subject,
+      greeting: dict.contact.confirmationEmail.greeting.replace('{{name}}', fullName),
+    });
   }
 }

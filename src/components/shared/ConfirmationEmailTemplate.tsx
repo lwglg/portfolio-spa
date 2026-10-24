@@ -1,8 +1,9 @@
 /**
- * Template de e-mail de confirmação no mesmo estilo visual da aplicação (neobrutalism).
- * Usado pela action submitContactForm; pode ser renderizado em HTML para serviços de e-mail.
+ * Template de e-mail de confirmação (neobrutalism).
+ * Layout partilhado com `buildConfirmationEmailHtml` (Worker / Resend).
  */
 import type { Dictionary } from '@/i18n';
+import { getConfirmationEmailCopy } from '@/lib/confirmationEmailHtml';
 
 interface Props {
   fullName: string;
@@ -10,7 +11,7 @@ interface Props {
 }
 
 export function ConfirmationEmailTemplate({ fullName, dict }: Props) {
-  const c = dict.contact.confirmationEmail;
+  const copy = getConfirmationEmailCopy(dict.contact.confirmationEmail, fullName);
 
   return (
     <div
@@ -20,7 +21,7 @@ export function ConfirmationEmailTemplate({ fullName, dict }: Props) {
         margin: '0 auto',
         border: '3px solid #000',
         boxShadow: '6px 6px 0 #000',
-        background: '#fffbf0',
+        background: '#fbf6e3',
         color: '#000',
       }}
     >
@@ -36,12 +37,13 @@ export function ConfirmationEmailTemplate({ fullName, dict }: Props) {
         Guilherme Gonçalves
       </div>
       <div style={{ padding: 24 }}>
-        <p style={{ fontWeight: 700, marginBottom: 12 }}>
-          {c.greeting.replace('{{name}}', fullName)}
-        </p>
-        <p style={{ lineHeight: 1.6, marginBottom: 24 }}>{c.body}</p>
-        <p style={{ fontWeight: 700 }}>{c.footer}</p>
+        <p style={{ fontWeight: 700, marginBottom: 12 }}>{copy.greeting}</p>
+        <p style={{ lineHeight: 1.6, marginBottom: 24 }}>{copy.body}</p>
+        <p style={{ fontWeight: 700 }}>{copy.footer}</p>
       </div>
     </div>
   );
 }
+
+/** Re-export for callers that need the HTML string (e.g. previews). */
+export { buildConfirmationEmailHtml, getConfirmationEmailCopy } from '@/lib/confirmationEmailHtml';

@@ -65,7 +65,7 @@ export function ContactForm() {
 
   const onSubmit = async (data: ContactFormData) => {
     try {
-      await submitContactForm(data, dict);
+      await submitContactForm(data, dict, locale);
       resetForm();
     } catch {
       // error already in store
