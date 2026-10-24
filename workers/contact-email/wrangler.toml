@@ -1,0 +1,16 @@
+
+name = "portfolio-contact-email"
+main = "src/index.ts"
+compatibility_date = "2024-11-01"
+
+# Secrets (set via `wrangler secret put`):
+#   RESEND_API_KEY
+# Optional vars:
+#   CONTACT_TO_EMAIL   (default: lwglguilherme@gmail.com)
+#   MAIL_FROM          (default: Portfolio <onboarding@resend.dev> — use a verified domain in production)
+#   ALLOWED_ORIGINS    (comma-separated; empty = reflect request Origin in dev)
+
+[vars]
+CONTACT_TO_EMAIL = "lwglguilherme@gmail.com"
+MAIL_FROM = "Portfolio <onboarding@resend.dev>"
+ALLOWED_ORIGINS = "https://lwglg.github.io,http://localhost:3000"
