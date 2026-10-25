@@ -19,7 +19,7 @@
       "title": "Specialties",
       "items": [
         "Event-driven architectures",
-        "Workflow engine design",
+        "Designing workflow engines in the context of microservices (orchestrating business logic)",
         "Complexity analysis (Big-O)",
         "Scalable back-end development (Python, TypeScript, Java, Go)",
         "Embedded systems and data acquisition",
