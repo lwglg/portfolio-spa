@@ -402,7 +402,7 @@
     "confirmationEmail": {
       "subject": "Confirmação de recebimento da sua mensagem",
       "greeting": "Olá {{name}},",
-      "body": "Obrigado à você pelo ter entrado em contato. Responderei em breve.",
+      "body": "Obrigado à você por ter entrado em contato. Responderei em breve.",
       "footer": "— Guilherme Gonçalves"
     },
     "notificationEmail": {
