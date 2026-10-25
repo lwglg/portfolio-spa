@@ -19,7 +19,7 @@
       "title": "Especialidades",
       "items": [
         "Arquiteturas orientadas a eventos",
-        "Desenho de motores de workflow",
+        "Projeto de workflow engines no contexto de microsserviços (orquestrar lógica de negócio)",
         "Análise de complexidade (Big-O)",
         "Desenvolvimento back-end escalável (Python, TypeScript, Java, Go)",
         "Sistemas embarcados e aquisição de dados",
